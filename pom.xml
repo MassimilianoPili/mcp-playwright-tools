@@ -7,7 +7,7 @@
 
     <groupId>io.github.massimilianopili</groupId>
     <artifactId>mcp-playwright-tools</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <packaging>jar</packaging>
     <name>MCP Playwright Tools</name>
     <description>MCP tools per browser automation: navigazione, click, fill, screenshot, evaluate JS, accessibility snapshot. Basato su Playwright Java.</description>
