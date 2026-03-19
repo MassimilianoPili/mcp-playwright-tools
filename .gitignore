@@ -6,3 +6,6 @@ target/
 .project
 logs/
 CLAUDE.md
+
+.env
+.env.*
