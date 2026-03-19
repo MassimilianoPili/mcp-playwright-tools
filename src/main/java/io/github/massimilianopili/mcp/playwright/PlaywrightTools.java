@@ -31,11 +31,11 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_navigate",
-          description = "Naviga a un URL nel browser. Restituisce URL finale, titolo e stato. "
-                      + "Usa waitUntil per controllare quando la navigazione e' completa.")
+          description = "Navigates to a URL in the browser. Returns final URL, title and status. "
+                      + "Use waitUntil to control when navigation is complete.")
     public Map<String, Object> navigate(
-            @ToolParam(description = "URL completo da visitare (es. https://example.com)") String url,
-            @ToolParam(description = "Evento di attesa: load (default), domcontentloaded, networkidle", required = false) String waitUntil) {
+            @ToolParam(description = "Full URL to visit (e.g. https://example.com)") String url,
+            @ToolParam(description = "Wait event: load (default), domcontentloaded, networkidle", required = false) String waitUntil) {
         try {
             Page page = provider.getPage();
             Page.NavigateOptions opts = new Page.NavigateOptions().setTimeout(props.getTimeout());
@@ -63,7 +63,7 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_navigate_back",
-          description = "Torna alla pagina precedente nella cronologia del browser.")
+          description = "Goes back to the previous page in the browser history.")
     public Map<String, Object> navigateBack() {
         try {
             Page page = provider.getPage();
@@ -82,9 +82,9 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_snapshot",
-          description = "Cattura lo snapshot ARIA di accessibilita' della pagina corrente. "
-                      + "Restituisce l'albero di accessibilita' come testo strutturato YAML-like. "
-                      + "Preferibile allo screenshot per analisi del contenuto senza modelli di visione.")
+          description = "Captures the ARIA accessibility snapshot of the current page. "
+                      + "Returns the accessibility tree as YAML-like structured text. "
+                      + "Preferable to screenshot for content analysis without vision models.")
     public String snapshot() {
         try {
             Page page = provider.getPage();
@@ -98,10 +98,10 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_screenshot",
-          description = "Cattura screenshot della pagina corrente come immagine PNG in base64. "
-                      + "Usa fullPage=true per catturare l'intera pagina (scrollabile).")
+          description = "Captures a screenshot of the current page as a base64 PNG image. "
+                      + "Use fullPage=true to capture the entire scrollable page.")
     public Map<String, Object> screenshot(
-            @ToolParam(description = "true per catturare l'intera pagina scrollabile, false per il viewport visibile", required = false) Boolean fullPage) {
+            @ToolParam(description = "true to capture the entire scrollable page, false for the visible viewport", required = false) Boolean fullPage) {
         try {
             Page page = provider.getPage();
             byte[] bytes = page.screenshot(new Page.ScreenshotOptions()
@@ -122,10 +122,10 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_click",
-          description = "Clicca su un elemento della pagina identificato da selettore CSS o XPath. "
-                      + "Esempi: 'button#submit', 'a[href=\"/login\"]', '//button[text()=\"OK\"]'.")
+          description = "Clicks on a page element identified by CSS selector or XPath. "
+                      + "Examples: 'button#submit', 'a[href=\"/login\"]', '//button[text()=\"OK\"]'.")
     public Map<String, Object> click(
-            @ToolParam(description = "Selettore CSS o XPath dell'elemento da cliccare") String selector) {
+            @ToolParam(description = "CSS selector or XPath of the element to click") String selector) {
         try {
             Page page = provider.getPage();
             page.click(selector, new Page.ClickOptions().setTimeout(props.getTimeout()));
@@ -143,11 +143,11 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_fill",
-          description = "Riempie un campo input/textarea con il testo specificato. "
-                      + "Svuota il campo prima di scrivere. Usa per form di login, ricerca, etc.")
+          description = "Fills an input/textarea field with the specified text. "
+                      + "Clears the field before typing. Use for login forms, search, etc.")
     public Map<String, Object> fill(
-            @ToolParam(description = "Selettore CSS o XPath del campo input") String selector,
-            @ToolParam(description = "Testo da inserire nel campo") String value) {
+            @ToolParam(description = "CSS selector or XPath of the input field") String selector,
+            @ToolParam(description = "Text to enter in the field") String value) {
         try {
             Page page = provider.getPage();
             page.fill(selector, value, new Page.FillOptions().setTimeout(props.getTimeout()));
@@ -164,11 +164,11 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_select_option",
-          description = "Seleziona un'opzione da un elemento <select> (dropdown). "
-                      + "Il valore puo' essere il value dell'option o il testo visibile.")
+          description = "Selects an option from a <select> element (dropdown). "
+                      + "The value can be the option's value attribute or its visible text.")
     public Map<String, Object> selectOption(
-            @ToolParam(description = "Selettore CSS o XPath dell'elemento <select>") String selector,
-            @ToolParam(description = "Valore (value attribute) o label dell'opzione da selezionare") String value) {
+            @ToolParam(description = "CSS selector or XPath of the <select> element") String selector,
+            @ToolParam(description = "Value (value attribute) or label of the option to select") String value) {
         try {
             Page page = provider.getPage();
             List<String> selected = page.selectOption(selector, value);
@@ -186,11 +186,11 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_press_key",
-          description = "Premi un tasto sulla pagina. Supporta tasti speciali: "
+          description = "Presses a key on the page. Supports special keys: "
                       + "Enter, Tab, Escape, ArrowDown, ArrowUp, Backspace, Delete, etc. "
-                      + "Combinazioni: Control+A, Shift+Tab, Meta+C.")
+                      + "Combinations: Control+A, Shift+Tab, Meta+C.")
     public Map<String, Object> pressKey(
-            @ToolParam(description = "Tasto da premere (es. Enter, Tab, Escape, Control+A)") String key) {
+            @ToolParam(description = "Key to press (e.g. Enter, Tab, Escape, Control+A)") String key) {
         try {
             Page page = provider.getPage();
             page.keyboard().press(key);
@@ -207,12 +207,12 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_type",
-          description = "Digita testo carattere per carattere. Se fornito un selettore, "
-                      + "digita nell'elemento specificato. Altrimenti digita nella pagina "
-                      + "(utile dopo aver cliccato su un campo).")
+          description = "Types text character by character. If a selector is provided, "
+                      + "types into the specified element. Otherwise types into the page "
+                      + "(useful after clicking on a field).")
     public Map<String, Object> type(
-            @ToolParam(description = "Testo da digitare") String text,
-            @ToolParam(description = "Selettore CSS o XPath dell'elemento (opzionale)", required = false) String selector) {
+            @ToolParam(description = "Text to type") String text,
+            @ToolParam(description = "CSS selector or XPath of the element (optional)", required = false) String selector) {
         try {
             Page page = provider.getPage();
             if (selector != null && !selector.isBlank()) {
@@ -233,11 +233,11 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_evaluate",
-          description = "Esegui codice JavaScript nella pagina e restituisci il risultato. "
-                      + "L'espressione viene valutata nel contesto della pagina corrente. "
-                      + "Esempio: 'document.title', 'document.querySelectorAll(\"a\").length'.")
+          description = "Executes JavaScript code in the page and returns the result. "
+                      + "The expression is evaluated in the current page context. "
+                      + "Example: 'document.title', 'document.querySelectorAll(\"a\").length'.")
     public String evaluate(
-            @ToolParam(description = "Espressione JavaScript da valutare") String expression) {
+            @ToolParam(description = "JavaScript expression to evaluate") String expression) {
         try {
             Page page = provider.getPage();
             Object result = page.evaluate(expression);
@@ -251,13 +251,13 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_wait_for",
-          description = "Attendi che un elemento appaia nella pagina o che un testo sia visibile. "
-                      + "Specifica almeno uno tra selector e text. "
-                      + "Utile dopo navigazione o azioni che causano caricamento.")
+          description = "Waits for an element to appear on the page or for text to become visible. "
+                      + "Specify at least one of selector or text. "
+                      + "Useful after navigation or actions that trigger loading.")
     public Map<String, Object> waitFor(
-            @ToolParam(description = "Selettore CSS o XPath dell'elemento da attendere", required = false) String selector,
-            @ToolParam(description = "Testo da attendere nella pagina", required = false) String text,
-            @ToolParam(description = "Timeout in millisecondi (default: timeout configurato)", required = false) Integer timeout) {
+            @ToolParam(description = "CSS selector or XPath of the element to wait for", required = false) String selector,
+            @ToolParam(description = "Text to wait for on the page", required = false) String text,
+            @ToolParam(description = "Timeout in milliseconds (default: configured timeout)", required = false) Integer timeout) {
         try {
             Page page = provider.getPage();
             int waitTimeout = timeout != null ? timeout : props.getTimeout();
@@ -283,11 +283,11 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_get_content",
-          description = "Estrai il contenuto testuale o HTML dalla pagina o da un elemento specifico. "
-                      + "Senza selettore restituisce il testo dell'intera pagina. "
-                      + "Con selettore restituisce il contenuto dell'elemento.")
+          description = "Extracts text or HTML content from the page or a specific element. "
+                      + "Without selector returns the entire page text. "
+                      + "With selector returns the element's content.")
     public String getContent(
-            @ToolParam(description = "Selettore CSS o XPath per estrarre contenuto specifico (opzionale, senza = intera pagina)", required = false) String selector) {
+            @ToolParam(description = "CSS selector or XPath to extract specific content (optional, without = entire page)", required = false) String selector) {
         try {
             Page page = provider.getPage();
             if (selector != null && !selector.isBlank()) {
@@ -304,7 +304,7 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_tabs",
-          description = "Lista tutte le schede (pagine) aperte nel browser con URL e titolo.")
+          description = "Lists all open tabs (pages) in the browser with URL and title.")
     public List<Map<String, Object>> tabs() {
         try {
             var ctx = provider.getBrowserContext();
@@ -328,8 +328,8 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_close",
-          description = "Chiudi la pagina corrente del browser. Una nuova pagina verra' "
-                      + "creata automaticamente alla prossima operazione.")
+          description = "Closes the current browser page. A new page will be "
+                      + "created automatically on the next operation.")
     public Map<String, Object> close() {
         try {
             provider.closePage();
@@ -341,10 +341,10 @@ public class PlaywrightTools {
     }
 
     @Tool(name = "playwright_resize",
-          description = "Ridimensiona il viewport del browser alle dimensioni specificate.")
+          description = "Resizes the browser viewport to the specified dimensions.")
     public Map<String, Object> resize(
-            @ToolParam(description = "Larghezza in pixel") int width,
-            @ToolParam(description = "Altezza in pixel") int height) {
+            @ToolParam(description = "Width in pixels") int width,
+            @ToolParam(description = "Height in pixels") int height) {
         try {
             Page page = provider.getPage();
             page.setViewportSize(width, height);
