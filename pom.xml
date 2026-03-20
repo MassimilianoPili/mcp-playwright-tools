@@ -7,7 +7,7 @@
 
     <groupId>io.github.massimilianopili</groupId>
     <artifactId>mcp-playwright-tools</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <packaging>jar</packaging>
     <name>MCP Playwright Tools</name>
     <description>MCP tools per browser automation: navigazione, click, fill, screenshot, evaluate JS, accessibility snapshot. Basato su Playwright Java.</description>
@@ -157,4 +157,34 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>install-browsers</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>playwright-install-chromium</id>
+                                <phase>generate-resources</phase>
+                                <goals><goal>java</goal></goals>
+                                <configuration>
+                                    <mainClass>com.microsoft.playwright.CLI</mainClass>
+                                    <arguments>
+                                        <argument>install</argument>
+                                        <argument>--with-deps</argument>
+                                        <argument>chromium</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
