@@ -187,4 +187,11 @@
             </build>
         </profile>
     </profiles>
+
+    <distributionManagement>
+        <repository>
+            <id>gitea</id>
+            <url>http://gitea:3000/api/packages/sol_root/maven</url>
+        </repository>
+    </distributionManagement>
 </project>
